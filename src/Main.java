@@ -2,6 +2,7 @@ import sun.plugin.javascript.navig.AnchorArray;
 import sun.plugin.javascript.navig.Array;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Main {
@@ -12,6 +13,7 @@ public class Main {
         System.out.println("Ingrese la expresion regular: ");
         String regex = sc.nextLine();
         Controlador control = new Controlador(regex);
+        ConvertidorAfnAfd convert = new ConvertidorAfnAfd();
 
         Automata AutomataFinal = control.LectorDeExpresiones();
         ArrayList<Nodo> grafo = AutomataFinal.getHistorial();
@@ -35,11 +37,15 @@ public class Main {
         /*Obtener el Nodo Final*/
         int IdFinal = AutomataFinal.getNodoFinal().getId();
 
+        
+
         System.out.println("ESTADOS = " + ids);
         System.out.println("SIMBOLOS = " + s);
         System.out.println("INICIO = " + IdInicial);
         System.out.println("ACEPTACION = " + IdFinal);
         System.out.println("TRANSICION = " + t);
+        System.out.println("EPSILON PRIMER NODO = ");
+
 
     }
 }
