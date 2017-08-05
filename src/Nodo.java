@@ -43,12 +43,15 @@ public class Nodo {
         return "Nodo: "+ Id + "\nTransiciones: " + transiciones + "\nNodos: " + nodos;
     }
 
-    public boolean equals(Nodo o){
-        if (this.transiciones.equals(o.getTransiciones()) && this.nodos.equals(o.getNodos())){
-            return true;
-        }
-        else{
-            return false;
-        }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+
 }
