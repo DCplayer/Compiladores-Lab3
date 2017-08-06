@@ -57,8 +57,9 @@ public class ConvertidorAfnAfd {
             while (index < z.getTransiciones().size()){
                 if (z.getTransiciones().get(index).equals("@")){
                     finito.add(z.getNodos().get(index));
-                    index = index + 1;
+
                 }
+                index = index + 1;
             }
             resultados.push(finito);
 
@@ -69,5 +70,25 @@ public class ConvertidorAfnAfd {
 
             x.addAll(resultados.pop());
         }return x;
+    }
+
+    public HashSet<Nodo> move(HashSet<Nodo> c , String s){
+        HashSet<Nodo> resultante = new HashSet<>();
+        HashSet<Nodo> epsiloneado = new HashSet<>();
+
+        epsiloneado = eClosure(c);
+
+        for (Nodo i: c){
+            int index = 0;
+            while (index < i.getTransiciones().size()){
+                if(i.getTransiciones().get(index).equals(s)){
+                    resultante.add(i.getNodos().get(index));
+
+                }
+                index = index +1;
+            }
+        }
+        epsiloneado = eClosure(resultante);
+        return epsiloneado;
     }
 }

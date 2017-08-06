@@ -1,6 +1,7 @@
 import sun.plugin.javascript.navig.AnchorArray;
 import sun.plugin.javascript.navig.Array;
 
+import javax.net.ssl.SSLEngineResult;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -37,7 +38,15 @@ public class Main {
         /*Obtener el Nodo Final*/
         int IdFinal = AutomataFinal.getNodoFinal().getId();
 
-        
+        /*Probando el e-closure en el nodo inicial del grafo*/
+        HashSet<Nodo> inicial = new HashSet<>();
+        inicial.add(AutomataFinal.getNodoInicial());
+        HashSet<Nodo> resultante = convert.eClosure(inicial);
+
+        /*Probando el move */
+        HashSet<Nodo> movimiento = convert.move(resultante, "a");
+
+
 
         System.out.println("ESTADOS = " + ids);
         System.out.println("SIMBOLOS = " + s);
@@ -45,6 +54,14 @@ public class Main {
         System.out.println("ACEPTACION = " + IdFinal);
         System.out.println("TRANSICION = " + t);
         System.out.println("EPSILON PRIMER NODO = ");
+        for (Nodo i : resultante){
+            System.out.println(i.getId());
+        }
+        System.out.println("Movimiento a A = ");
+        for (Nodo i : movimiento){
+            System.out.println(i.getId());
+        }
+
 
 
     }
