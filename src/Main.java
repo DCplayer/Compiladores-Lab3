@@ -38,14 +38,9 @@ public class Main {
         /*Obtener el Nodo Final*/
         int IdFinal = AutomataFinal.getNodoFinal().getId();
 
-        /*Probando el e-closure en el nodo inicial del grafo*/
         HashSet<Nodo> inicial = new HashSet<>();
         inicial.add(AutomataFinal.getNodoInicial());
-        HashSet<Nodo> resultante = convert.eClosure(inicial);
-
-        /*Probando el move */
-        HashSet<Nodo> movimiento = convert.move(resultante, "a");
-
+        ArrayList<HashSet<Nodo>> AFD = convert.ConvertirAfnAfd(inicial, s);
 
 
         System.out.println("ESTADOS = " + ids);
@@ -53,16 +48,13 @@ public class Main {
         System.out.println("INICIO = " + IdInicial);
         System.out.println("ACEPTACION = " + IdFinal);
         System.out.println("TRANSICION = " + t);
-        System.out.println("EPSILON PRIMER NODO = ");
-        for (Nodo i : resultante){
-            System.out.println(i.getId());
-        }
-        System.out.println("Movimiento a A = ");
-        for (Nodo i : movimiento){
-            System.out.println(i.getId());
-        }
 
-
+        for(HashSet<Nodo> h : AFD){
+            System.out.println("------------");
+            for (Nodo i: h){
+                System.out.println(i.getId());
+            }
+        }
 
     }
 }
