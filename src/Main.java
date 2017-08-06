@@ -40,7 +40,7 @@ public class Main {
 
         HashSet<Nodo> inicial = new HashSet<>();
         inicial.add(AutomataFinal.getNodoInicial());
-        ArrayList<HashSet<Nodo>> AFD = convert.ConvertirAfnAfd(inicial, s);
+        ArrayList<NodoAFD> AFD = convert.ConvertirAfnAfd(inicial, s);
 
 
         System.out.println("ESTADOS = " + ids);
@@ -49,12 +49,25 @@ public class Main {
         System.out.println("ACEPTACION = " + IdFinal);
         System.out.println("TRANSICION = " + t);
 
-        for(HashSet<Nodo> h : AFD){
-            System.out.println("------------");
-            for (Nodo i: h){
-                System.out.println(i.getId());
+        for(NodoAFD i: AFD){
+            System.out.println("------------------");
+            for(Nodo j: i.getConjunto()){
+                System.out.println(j.getId());
+            }
+            System.out.println("LLEGADAS DE ESTE NODO");
+            for(NodoAFD k: i.getArrivals()){
+                int index = i.getArrivals().indexOf(k);
+                String transi = i.getTransiciones().get(index);
+
+                System.out.println("Con la transicion: " + transi);
+                System.out.println("******************************************");
+                for(Nodo l: i.getArrivals().get(index).getConjunto()){
+                    System.out.println(l.getId());
+                }
             }
         }
+
+
 
     }
 }

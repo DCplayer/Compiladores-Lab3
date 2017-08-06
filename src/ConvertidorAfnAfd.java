@@ -98,9 +98,12 @@ public class ConvertidorAfnAfd {
 
     }
 
-    public ArrayList<HashSet<Nodo>> ConvertirAfnAfd(HashSet<Nodo> inicial, ArrayList<String> simbolos){
+    public ArrayList<NodoAFD> ConvertirAfnAfd(HashSet<Nodo> inicial, ArrayList<String> simbolos){
         ArrayList<HashSet<Nodo>> marcado = new ArrayList<>();
         ArrayList<HashSet<Nodo>> noMarcado = new ArrayList<>();
+
+        ArrayList<NodoAFD> nodosDelAFD = new ArrayList<>();
+
         int tamano = 0;
 
         noMarcado.add(eClosure(inicial));
@@ -112,18 +115,23 @@ public class ConvertidorAfnAfd {
 
             HashSet<Nodo> x = noMarcado.get(index);
             marcado.add(x);
+            NodoAFD nodoInicial = new NodoAFD(x);
+            nodosDelAFD.add(nodoInicial);
             index = index + 1;
 
-            for (String s: simbolos){
+            for (String stringy: simbolos){
                 HashSet<Nodo> z = eClosure(x);
-                HashSet<Nodo> y = move(z, s);
+                HashSet<Nodo> y = move(z, stringy);
 
-                AFD.add(x,s,y);
+                NodoAFD nodoFinal = new NodoAFD(y);
+                nodoInicial.add(stringy, nodoFinal);
+
+                AFD.add(x,stringy,y);
                 if(!noMarcado.contains(y)){
                     noMarcado.add(y);
                 }
             }
         }
-        return marcado;
+        return nodosDelAFD;
     }
 }
