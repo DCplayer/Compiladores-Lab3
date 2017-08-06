@@ -10,6 +10,7 @@ import java.util.Stack;
  */
 public class ConvertidorAfnAfd {
     private int index = 0;
+    private AutomataAFD AFD = new AutomataAFD();
 
     public ConvertidorAfnAfd(){}
 
@@ -116,6 +117,8 @@ public class ConvertidorAfnAfd {
             for (String s: simbolos){
                 HashSet<Nodo> z = eClosure(x);
                 HashSet<Nodo> y = move(z, s);
+
+                AFD.add(x,s,y);
                 if(!noMarcado.contains(y)){
                     noMarcado.add(y);
                 }
