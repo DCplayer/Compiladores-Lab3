@@ -31,4 +31,12 @@ public class NodoAFD {
     public ArrayList<NodoAFD> getArrivals() {
         return arrivals;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

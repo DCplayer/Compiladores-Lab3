@@ -41,6 +41,7 @@ public class Main {
         HashSet<Nodo> inicial = new HashSet<>();
         inicial.add(AutomataFinal.getNodoInicial());
         ArrayList<NodoAFD> AFD = convert.ConvertirAfnAfd(inicial, s);
+        ArrayList<NodoAFD> identificado = convert.NombrarNodosDelAFD(AFD);
 
 
         System.out.println("ESTADOS = " + ids);
@@ -49,8 +50,9 @@ public class Main {
         System.out.println("ACEPTACION = " + IdFinal);
         System.out.println("TRANSICION = " + t);
 
-        for(NodoAFD i: AFD){
+        for(NodoAFD i: identificado){
             System.out.println("------------------");
+            System.out.println("NODO DEL AFD CON IDENTIFICADOR : " + i.getId());
             for(Nodo j: i.getConjunto()){
                 System.out.println(j.getId());
             }
@@ -66,6 +68,8 @@ public class Main {
                 }
             }
         }
+
+
 
 
 

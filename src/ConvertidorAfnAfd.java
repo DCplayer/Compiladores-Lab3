@@ -11,6 +11,7 @@ import java.util.Stack;
 public class ConvertidorAfnAfd {
     private int index = 0;
     private AutomataAFD AFD = new AutomataAFD();
+    private int identificador = 0;
 
     public ConvertidorAfnAfd(){}
 
@@ -133,5 +134,32 @@ public class ConvertidorAfnAfd {
             }
         }
         return nodosDelAFD;
+    }
+
+    public ArrayList<NodoAFD> NombrarNodosDelAFD(ArrayList<NodoAFD> lista){
+        for(NodoAFD i: lista){
+            ArrayList<Integer> indexus = new ArrayList<>();
+            for (NodoAFD j: i.getArrivals()){
+                    for(NodoAFD q: lista){
+                        if(q.getConjunto().equals(j.getConjunto())){
+                            int index = lista.indexOf(q);
+                            indexus.add(index);
+                        }
+                    }
+                }
+
+            int count = 0;
+            for(int x: indexus){
+                System.out.println(x);
+                i.getArrivals().set(count, lista.get(x));
+                count = count +1;
+            }
+        }
+        for(NodoAFD nodito: lista){
+            nodito.setId(identificador);
+            identificador = identificador + 1;
+        }
+        return lista;
+
     }
 }
