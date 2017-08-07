@@ -11,12 +11,14 @@ public class Main {
         NormalizadorDeRegex norm = new NormalizadorDeRegex();
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Ingrese la expresion regular: ");
+        System.out.println("Ingrese la expresion regular de su automata: ");
         String regex = sc.nextLine();
         Controlador control = new Controlador(regex);
         ConvertidorAfnAfd convert = new ConvertidorAfnAfd();
 
         Automata AutomataFinal = control.LectorDeExpresiones();
+
+        /*------------------------------------------AFN------------------------------------------------------*/
         ArrayList<Nodo> grafo = AutomataFinal.getHistorial();
 
         /*Obtener las transiciones del grafo*/
@@ -40,8 +42,10 @@ public class Main {
 
         HashSet<Nodo> inicial = new HashSet<>();
         inicial.add(AutomataFinal.getNodoInicial());
-        ArrayList<NodoAFD> AFD = convert.ConvertirAfnAfd(inicial, s);
-        ArrayList<NodoAFD> identificado = convert.NombrarNodosDelAFD(AFD);
+        ArrayList<NodoAFD> noIdentificado = convert.ConvertirAfnAfd(inicial, s);
+
+        /*------------------------------------------AFD------------------------------------------------------*/
+        ArrayList<NodoAFD> AFD = convert.NombrarNodosDelAFD(noIdentificado);
 
 
         System.out.println("ESTADOS = " + ids);
@@ -50,7 +54,7 @@ public class Main {
         System.out.println("ACEPTACION = " + IdFinal);
         System.out.println("TRANSICION = " + t);
 
-        for(NodoAFD i: identificado){
+        for(NodoAFD i: AFD){
             System.out.println("------------------");
             System.out.println("NODO DEL AFD CON IDENTIFICADOR : " + i.getId());
             for(Nodo j: i.getConjunto()){
