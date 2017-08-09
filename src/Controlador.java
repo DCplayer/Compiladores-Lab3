@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Stack;
 /**
  * Created by Diego Castañeda on 28/07/2017.
@@ -159,6 +160,7 @@ public class Controlador {
         }
         return simbolos;
     }
+
 
     public ArrayList<Nodo> getGrafo() {
         return grafo;

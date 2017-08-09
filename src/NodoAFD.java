@@ -10,6 +10,9 @@ public class NodoAFD {
     private ArrayList<String> transiciones = new ArrayList<>();
     private ArrayList<NodoAFD> arrivals = new ArrayList<>();
 
+    private boolean isInitial = false;
+    private boolean isFinal = false;
+
     public NodoAFD(HashSet<Nodo> propiedad) {
         this.conjunto= propiedad;
 
@@ -38,5 +41,21 @@ public class NodoAFD {
 
     public int getId() {
         return id;
+    }
+
+    public void setInitial(boolean initial) {
+        isInitial = initial;
+    }
+
+    public void setFinal(boolean aFinal) {
+        isFinal = aFinal;
+    }
+
+    public boolean isInitial() {
+        return isInitial;
+    }
+
+    public boolean isFinal() {
+        return isFinal;
     }
 }

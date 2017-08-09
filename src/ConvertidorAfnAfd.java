@@ -150,7 +150,6 @@ public class ConvertidorAfnAfd {
 
             int count = 0;
             for(int x: indexus){
-                System.out.println(x);
                 i.getArrivals().set(count, lista.get(x));
                 count = count +1;
             }
@@ -159,7 +158,59 @@ public class ConvertidorAfnAfd {
             nodito.setId(identificador);
             identificador = identificador + 1;
         }
+
+        lista.get(0).setInitial(true);
+        lista.get(lista.size()-1).setFinal(true);
         return lista;
+
+    }
+
+    public void aceptacionEnAFD(Automata automataFinal, ArrayList<NodoAFD> AFD){
+        Nodo n = automataFinal.getNodoFinal();
+        for (NodoAFD i: AFD){
+            if(i.getConjunto().contains(n)){
+                i.setFinal(true);
+            }
+        }
+    }
+
+    public boolean simularAFN(Automata automataFinal, String s){
+        HashSet<Nodo> nodos = new HashSet<Nodo>();
+        nodos.add(automataFinal.getNodoInicial());
+        HashSet<Nodo> resultado = eClosure(nodos);
+        int index = 0;
+        while (index < s.length()){
+            String transicion = s.substring(index, index +1);
+            HashSet<Nodo> este = move(resultado, transicion);
+            resultado.clear();
+            resultado.addAll(este);
+            index = index +1;
+        }
+        for (Nodo i: resultado){
+            if (automataFinal.getNodoFinal().equals(i)){
+                return true;
+            }
+
+        }
+        return false;
+
+    }
+
+    public boolean simularAFD(ArrayList<NodoAFD> listaDeAFD, String s){
+        NodoAFD elNodo = listaDeAFD.get(0);
+
+        int index = 0;
+        while (index < s.length()){
+            String substri = s.substring(index, index+1);
+            int numero = elNodo.getTransiciones().indexOf(substri);
+            NodoAFD resul = elNodo.getArrivals().get(numero);
+            elNodo = resul;
+            index = index + 1;
+        }
+        if(elNodo.isFinal()){
+            return true;
+        }
+        return false;
 
     }
 }

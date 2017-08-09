@@ -16,10 +16,15 @@ public class Main {
         Controlador control = new Controlador(regex);
         ConvertidorAfnAfd convert = new ConvertidorAfnAfd();
 
+        long  tiempoInicialAFD = System.nanoTime();
         Automata AutomataFinal = control.LectorDeExpresiones();
+        long tiempoFinalAFD = System.nanoTime();
+        double  tiempoAFD = (tiempoFinalAFD - tiempoInicialAFD) / 1000000.0;
+
 
         /*------------------------------------------AFN------------------------------------------------------*/
         ArrayList<Nodo> grafo = AutomataFinal.getHistorial();
+        /*------------------------------------------AFN------------------------------------------------------*/
 
         /*Obtener las transiciones del grafo*/
         ArrayList<Transicion> t = control.AlgoritmoCreaTransiciones(grafo);
@@ -42,39 +47,65 @@ public class Main {
 
         HashSet<Nodo> inicial = new HashSet<>();
         inicial.add(AutomataFinal.getNodoInicial());
+
+        long tiempoInicialConvertirAFNAFD = System.nanoTime();
         ArrayList<NodoAFD> noIdentificado = convert.ConvertirAfnAfd(inicial, s);
+        long tiempoFinalConvertirAFNAFD = System.nanoTime();
+        double tiempoConvertirAFNAFD = (tiempoFinalConvertirAFNAFD - tiempoInicialConvertirAFNAFD) / 1000000.0;
+        convert.aceptacionEnAFD(AutomataFinal,noIdentificado);
 
         /*------------------------------------------AFD------------------------------------------------------*/
         ArrayList<NodoAFD> AFD = convert.NombrarNodosDelAFD(noIdentificado);
+        /*------------------------------------------AFD------------------------------------------------------*/
 
 
-        System.out.println("ESTADOS = " + ids);
-        System.out.println("SIMBOLOS = " + s);
-        System.out.println("INICIO = " + IdInicial);
-        System.out.println("ACEPTACION = " + IdFinal);
-        System.out.println("TRANSICION = " + t);
 
-        for(NodoAFD i: AFD){
-            System.out.println("------------------");
-            System.out.println("NODO DEL AFD CON IDENTIFICADOR : " + i.getId());
-            for(Nodo j: i.getConjunto()){
-                System.out.println(j.getId());
+        System.out.println("Tiempo de Creacion del AFN");
+        System.out.println("" + tiempoAFD + " milisegundos");
+        System.out.println("Tiempo de convertir el AFN a un ADF");
+        System.out.println("" + tiempoConvertirAFNAFD + " milisegundos");
+
+        boolean seguimos = true;
+        while (seguimos){
+
+            System.out.println("\nIngrese la cadena que desea simular : ");
+            String simulacion = sc.nextLine();
+
+            long tiempoInicialSimulacionAFN = System.nanoTime();
+            boolean simulacionAFN = convert.simularAFN(AutomataFinal, simulacion);
+            long tiempoFinalSimulacionAFN = System.nanoTime();
+            double tiempoSimulacionAFN = (tiempoFinalSimulacionAFN-tiempoInicialSimulacionAFN )/1000000.0;
+
+            System.out.println("---------------------------AFN---------------------------");
+            if (simulacionAFN){
+                System.out.println("          Cadena: Aceptada");
             }
-            System.out.println("LLEGADAS DE ESTE NODO");
-            for(NodoAFD k: i.getArrivals()){
-                int index = i.getArrivals().indexOf(k);
-                String transi = i.getTransiciones().get(index);
+            else{
+                System.out.println("          Cadena: No Aceptada");
+            }
+            System.out.println("          tiempo: " + tiempoSimulacionAFN + " milisegundos");
 
-                System.out.println("Con la transicion: " + transi);
-                System.out.println("******************************************");
-                for(Nodo l: i.getArrivals().get(index).getConjunto()){
-                    System.out.println(l.getId());
-                }
+            long tiempoInicialSimulacionAFD = System.nanoTime();
+            boolean simulacionAFD = convert.simularAFD(AFD, simulacion);
+            long tiempoFinalSimulacionAFD = System.nanoTime();
+            double tiempoSimulacionAFD = (tiempoFinalSimulacionAFD - tiempoInicialSimulacionAFD)/1000000.0;
+
+            System.out.println("---------------------------AFD---------------------------");
+            if (simulacionAFD){
+                System.out.println("          Cadena: Aceptada");
+            }
+            else{
+                System.out.println("          Cadena: No Aceptada");
+            }
+            System.out.println("          tiempo: " + tiempoSimulacionAFD + " milisegundos");
+
+
+            System.out.println("\nDesea seguir simulando cadenas (0 NO/1 SI) : ");
+            String respuesta = sc.nextLine();
+            if (respuesta.equals("0")){
+                seguimos = false;
             }
         }
-
-
-
 
 
     }
